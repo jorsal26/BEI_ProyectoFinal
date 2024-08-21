@@ -1,10 +1,12 @@
-## Arquitectura del proyecto
-Desarrollado en Node.js, Express.
-Desarrollado con la librería fs-extra para manipular archivos.
-
-Proyecto Final Curso de Programación backend I - Preentrega 1
-
-Por Sallinas Jorge Luis
+## Proyecto Final Curso de Programación Backend I: Desarrollo Avanzado de Backend - Preentrega 1
+## Por Salinas Jorge Luis
+## Herramientas de desarrollo
+- Visual Studio Code
+- Postman
+- Git
+- GitHub
+- Node.js
+- Express.js
 
 ## Arquitectura del proyecto
 ```text
