@@ -46,15 +46,20 @@ export default class CartManager {
         this.saveToFile()
         return newCart;
     }
-    async addProductToCartByCid(cid, product) {
+    async addProductToCartByCid(cid, pid) {
         try {
             const cartIndex = this.carts.findIndex(cart => cart.id === cid)
             if (cartIndex === -1) return null;
 
             if (cartIndex) {
                 // Agrega el nuevo registro al array 'products' del carrito
+                // Crear el nuevo objeto
+                const newProduct = {
+                    id: pid,
+                    quantity: 1
+                    };
                 if (Array.isArray(this.carts[cartIndex].products)) {
-                    this.carts[cartIndex].products.push(product)
+                    this.carts[cartIndex].products.push(newProduct)
                     this.saveToFile()
                 } else {
                     console.log('El campo "Products" no es un array.');

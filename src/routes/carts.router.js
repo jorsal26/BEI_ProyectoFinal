@@ -53,11 +53,6 @@ router.post('/:cid/products/:pid', async (req, res) => {
     try {
         const cartId = parseInt(req.params.cid);
         const productId = parseInt(req.params.pid);
-        const {body} = req;
-
-        console.log(cartId);
-        console.log(body);
-        console.log(productId);
 
         const cart = await cartManager.getCartById(cartId);
         console.log(cart);
@@ -73,8 +68,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
             res.status(404).json({ error: 'Producto no encontrado' });
         }
         
-        const prod = ["id: " + productId, "quantity: " + 1] 
-        const newProductCart = await cartManager.addProductToCartByCid(cartId, prod)
+        const newProductCart = await cartManager.addProductToCartByCid(cartId, productId)
 
         res.status(201).json(newProductCart)
     } catch (error) {
