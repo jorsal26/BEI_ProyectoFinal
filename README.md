@@ -1,4 +1,4 @@
-## Proyecto Final Curso de Programación Backend I: Desarrollo Avanzado de Backend - Preentrega 1
+## Proyecto Final Curso de Programación Backend I: Desarrollo Avanzado de Backend - Proyecto Final
 ## Por Salinas Jorge Luis
 ## Herramientas de desarrollo
 - Visual Studio Code
@@ -7,6 +7,10 @@
 - GitHub
 - Node.js
 - Express.js
+- MongoDB
+- Mongoose
+- MongoDB Compass
+
 
 ## Arquitectura del proyecto
 ```text

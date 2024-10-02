@@ -1,82 +1,86 @@
 import { Router } from 'express'
-import ProductManager from '../service/ProductManager.js'
+import { productModel } from '../models/products.model.js'
+import ProductService from '../service/products.service.js';
 
 const router = Router();
-const productManager = new ProductManager();
+const productService = new ProductService();
 
 // APIs
 // GET
 router.get('/', async (req, res) => {
     try {
-        const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
-        const products = await productManager.getAllProducts(limit)
-        res.json(products)
+        const products = await productService.getAll();
+
+        res.send(products)
     } catch (error) {
-        console.log(error);
+        console.error("No se pudo obtener productos con moongose: " + error);
+        res.status(500).send({ error: "No se pudo obtener productos con moongose", message: error });
     }
 })
 
 router.get('/:pid', async (req, res) => {
     try {
-        const producId = parseInt(req.params.pid)
-        const product = await productManager.getProductById(producId)
-        if (product) {
-            res.json(product)
-        } else {
-            res.status(404).json({ error: 'Producto no encontrado' });
-        }
+        const products = await productModel.find({_id: req.params.pid})
+
+        res.send({ result: "success", payload: products })
     } catch (error) {
-        console.log(error);
+        console.error("No se pudo encontrar el producto con moongose: " + error);
+        res.status(500).send({ error: "No se pudo encontrar el producto con moongose", message: error });
+    }
+})
+
+router.post('/',async(req,res)=>{
+    try {
+        let result = await productService.save(req.body);
+        res.status(201).send(result);
+    } catch (error) {
+        console.error("No se pudo crear productos con moongose: " + error);
+        res.status(500).send({ error: "No se pudo crear productos con moongose", message: error });
     }
 })
 
 // POST
-router.post('/', async (req, res) => {
-    try {
-        const { title, description, code, price, stock, category, thumbnails } = req.body;
-        if (!title || !description || !code || !price || !stock || !category) {
-            return res.status(400).json({ error: 'Todos los campos son obligatorios excepto thumbnails' });
-        }
+// router.post('/', async (req, res) => {
+//     try {
+//         const { title, description, code, price, stock, category, thumbnails } = req.body;
 
-        const newProduct = await productManager.addProduct({ title, description, code, price, stock, category, thumbnails })
+//         if (!title || !description || !code || !price || !stock || !category) {
+//             return res.status(400).json({ error: 'Todos los campos son obligatorios excepto thumbnails' });
+//         }
 
-        res.status(201).json(newProduct)
-    } catch (error) {
-        console.log(error);
-    }
-})
+//         const newProduct = await productModel.create({ title, description, code, price, stock, category, thumbnails })
+
+//         res.status(201).send(newProduct)
+//     } catch (error) {
+//         console.error("No se pudo crear productos con moongose: " + error);
+//         res.status(500).send({ error: "No se pudo crear productos con moongose", message: error });
+//     }
+// })
 
 
 // PUT
 router.put('/:pid', async (req, res) => {
     try {
         const productId = parseInt(req.params.pid);
-        const updateProduct = await productManager.updateProduct(productId, req.body);
-        if (updateProduct) {
-            res.json(updateProduct)
-        } else {
-            res.status(404).json({ error: 'Producto no encontrado' });
-        }
+        const updateProduct = await productModel.updateOne({_id: req.params.pid}, req.body);
+
+        res.status(202).send(updateProduct);
     } catch (error) {
-        console.log(error);
+        console.error("No se pudo actualizar producto con moongose: " + error);
+        res.status(500).send({ error: "No se pudo actualizar producto con moongose", message: error });
     }
 })
 
 // DELETE
 router.delete('/:pid', async (req, res) => {
     try {
-        const productId = parseInt(req.params.pid);
-        const deletedProduct = await productManager.deleteProduct(productId)
-        if (deletedProduct) {
-            res.json(deletedProduct)
-        } else {
-            res.status(404).json({ error: 'Producto no encontrado' });
-        }
+        const deletedProduct = await productModel.deleteOne({_id: req.params.pid})
+
+        res.status(202).send({ result: "success", payload: deletedProduct });
     } catch (error) {
-        console.log(error);
+        console.error("No se pudo eliminar producto con moongose: " + error);
+        res.status(500).send({ error: "No se pudo eliminar producto con moongose", message: error });
     }
 })
-
-
 
 export default router;

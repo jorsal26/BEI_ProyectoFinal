@@ -1,0 +1,13 @@
+<h1>{{title}}</h1>
+<div class="card-container">
+    {{#each products}}
+    <div class="card">
+        <h2>{{title}}</h2>
+        <p>Precio: ${{price}}</p>
+        <p>{{#if status}}Disponible{{else}}No disponible{{/if}}</p>
+        <p>Categoria: {{category}}</p>
+        <p>Stock: {{stock}}</p>
+    </div>
+    {{/each}}
+</div>
+

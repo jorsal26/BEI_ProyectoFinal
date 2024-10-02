@@ -1,5 +1,5 @@
 {
-  "name": "proyectofinal_pe1",
+  "name": "proyectofinal_be1",
   "version": "1.0.0",
   "description": "```text\r my-express-app/\r │\r ├── src/\r │   ├── routes/\r │   │   └── products.router.js\r │   ├── services/\r │   │   └── ProductManager.js\r │   └── app.js\r │\r └── data/\r     └── productos.json\r ```",
   "main": "index.js",
@@ -12,6 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
+    "express-handlebars": "^8.0.1",
+    "mongoose": "^8.7.0",
+    "mongoose-paginate-v2": "^1.8.5",
     "nodemon": "^3.1.4"
   }
 }

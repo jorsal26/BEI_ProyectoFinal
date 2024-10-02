@@ -1,34 +1,34 @@
 import { Router } from 'express'
 import CartManager from '../service/CartManager.js'
 import ProductManager from '../service/ProductManager.js'
+import { cartModel } from '../models/carts.model.js'
+import { productModel } from '../models/products.model.js'
 
 const router = Router();
-const cartManager = new CartManager();
-const productManager = new ProductManager();
+// const cartManager = new CartManager();
+// const productManager = new ProductManager();
 
 // APIs
 // GET
 router.get('/', async (req, res) => {
     try {
-        const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
-        const carts = await cartManager.getAllCarts(limit)
-        res.json(carts)
+        const carts = await cartModel.find()
+
+        res.send({ result: "success", payload: carts })
     } catch (error) {
-        console.log(error);
+        console.error("No se pudo obtener carritos con moongose: " + error);
+        res.status(500).send({ error: "No se pudo obtener carritos con moongose", message: error });
     }
 })
 
 router.get('/:cid', async (req, res) => {
     try {
-        const cartId = parseInt(req.params.cid)
-        const cart = await cartManager.getCartById(cartId)
-        if (cart) {
-            res.json(cart)
-        } else {
-            res.status(404).json({ error: 'Carrito no encontrado' });
-        }
+        const carts = await cartModel.find({_id: req.params.cid})
+
+        res.send({ result: "success", payload: carts })
     } catch (error) {
-        console.log(error);
+        console.error("No se pudo encontrar el carrito con moongose: " + error);
+        res.status(500).send({ error: "No se pudo encontrar el carrito con moongose", message: error });
     }
 })
 
